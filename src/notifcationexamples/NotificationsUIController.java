@@ -53,13 +53,21 @@ public class NotificationsUIController implements Initializable, Notifiable {
     
     @FXML
     public void startTask1(ActionEvent event) {
-        System.out.println("start task 1");
         if (task1 == null) {
             task1 = new Task1(2147483647, 1000000);
             task1.setNotificationTarget(this);
             task1.start();
             
+            System.out.println("Start task 1");
+            
             task1Button.setText("End Task 1");
+        } else if(task1.isAlive()) { // Check if the thread is alive... If so, end it
+            task1.end();
+            task1 = null;
+            
+            System.out.println("Ended task 1");
+            notify("Task 1 has been shutdown");
+            task1Button.setText("Start Task 1");
         }
     }
     
@@ -73,7 +81,6 @@ public class NotificationsUIController implements Initializable, Notifiable {
     
     @FXML
     public void startTask2(ActionEvent event) {
-        System.out.println("start task 2");
         if (task2 == null) {
             task2 = new Task2(2147483647, 1000000);
             task2.setOnNotification((String message) -> {
@@ -82,13 +89,21 @@ public class NotificationsUIController implements Initializable, Notifiable {
             
             task2.start();
             
+            System.out.println("Start task 2");
+            
             task2Button.setText("End Task 2");
-        }        
+        } else if(task2.isAlive()) { // Check if the thread is alive... If so, end it
+            task2.end();
+            task2 = null;
+            
+            System.out.println("Ended task 2");
+            notify("Task 2 has been shutdown");
+            task2Button.setText("Start Task 1");
+        }
     }
     
     @FXML
     public void startTask3(ActionEvent event) {
-        System.out.println("start task 3");
         if (task3 == null) {
             task3 = new Task3(2147483647, 1000000);
             // this uses a property change listener to get messages
@@ -97,8 +112,16 @@ public class NotificationsUIController implements Initializable, Notifiable {
             });
             
             task3.start();
+            System.out.println("Start task 3");
             
             task3Button.setText("End Task 3");
+        } else if(task3.isAlive()) { // Check if the thread is alive... If so, end it
+            task3.end();
+            task3 = null;
+            
+            System.out.println("Ended task 3");
+            notify("Task 3 has been shutdown");
+            task3Button.setText("Start Task 1");
         }
     } 
 }
