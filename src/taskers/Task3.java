@@ -8,6 +8,8 @@ package taskers;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javafx.application.Platform;
+import javafx.scene.control.Label;
+import notifcationexamples.NotificationStates;
 
 /**
  *
@@ -23,15 +25,23 @@ public class Task3 extends Thread {
     boolean exit = false;
     
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private NotificationStates state;
+    private Label taskLabel;
     
-    public Task3(int maxValue, int notifyEvery)  {
+    public Task3(int maxValue, int notifyEvery, Label taskLabel)  {
         this.maxValue = maxValue;
         this.notifyEvery = notifyEvery;
+        this.taskLabel = taskLabel;
+        this.state = NotificationStates.STOPPED;
     }
     
     @Override
     public void run() {
         doNotify("Task3 start.");
+        state = NotificationStates.RUNNING;
+        Platform.runLater(() -> {
+            taskLabel.setText(this.state.name());
+        });
         for (int i = 0; i < maxValue; i++) {
             
             if (i % notifyEvery == 0) {
@@ -42,10 +52,12 @@ public class Task3 extends Thread {
                 return;
             }
         }
+        state = NotificationStates.ENDED;
         doNotify("Task3 done.");
     }
     
     public void end() {
+        state = NotificationStates.STOPPED;
         exit = true;
     }
     
@@ -64,6 +76,15 @@ public class Task3 extends Thread {
         Platform.runLater(() -> {
             // I'm choosing not to send the old value (second param).  Sending "" instead.
             pcs.firePropertyChange("message", "", message);
+            taskLabel.setText(this.state.name());
         });
+    }
+
+    public NotificationStates getNotificationState() {
+        return state;
+    }
+
+    public void setState(NotificationStates states) {
+        this.state = states;
     }
 }

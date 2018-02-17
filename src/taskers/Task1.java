@@ -6,6 +6,8 @@
 package taskers;
 
 import javafx.application.Platform;
+import javafx.scene.control.Label;
+import notifcationexamples.NotificationStates;
 
 /**
  *
@@ -22,15 +24,24 @@ public class Task1 extends Thread {
     boolean exit = false;
     
     private Notifiable notificationTarget;
+    private NotificationStates state;
     
-    public Task1(int maxValue, int notifyEvery)  {
+    private Label taskLabel;
+    
+    public Task1(int maxValue, int notifyEvery, Label taskLabel)  {
         this.maxValue = maxValue;
         this.notifyEvery = notifyEvery;
+        this.taskLabel = taskLabel;
+        this.state = NotificationStates.STOPPED;
     }
     
     @Override
     public void run() {
         doNotify("Task1 start.");
+        setState(NotificationStates.RUNNING);
+        Platform.runLater(() -> {
+            taskLabel.setText(this.state.name());
+        });
         for (int i = 0; i < maxValue; i++) {
             
             if (i % notifyEvery == 0) {
@@ -41,10 +52,12 @@ public class Task1 extends Thread {
                 return;
             }
         }
+        state = NotificationStates.ENDED;
         doNotify("Task1 done.");
     }
     
     public void end() {
+        state = NotificationStates.STOPPED;
         exit = true;
     }
     
@@ -57,7 +70,16 @@ public class Task1 extends Thread {
         if (notificationTarget != null) {
             Platform.runLater(() -> {
                 notificationTarget.notify(message);
+                taskLabel.setText(this.state.name());
             });
         }
+    }
+
+    public NotificationStates getNotificationState() {
+        return this.state;
+    }
+
+    public void setState(NotificationStates state) {
+        this.state = state;
     }
 }

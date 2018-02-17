@@ -7,15 +7,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="notifcationexamples.NotificationsUIController">
+<AnchorPane id="AnchorPane" prefHeight="425.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="notifcationexamples.NotificationsUIController">
    <children>
-      <HBox layoutX="29.0" layoutY="23.0" prefHeight="27.0" prefWidth="393.0" spacing="15.0">
+      <TextArea fx:id="textArea" layoutX="29.0" layoutY="86.0" prefHeight="322.0" prefWidth="542.0" />
+      <GridPane layoutX="29.0" layoutY="14.0" prefHeight="72.0" prefWidth="542.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Button fx:id="task1Button" layoutX="29.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTask1" text="Start Task 1" />
-            <Button fx:id="task2Button" layoutX="107.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTask2" text="Start Task 2" />
-            <Button fx:id="task3Button" layoutX="185.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTask3" text="Start Task 3" />
+            <Button fx:id="task1Button" mnemonicParsing="false" onAction="#startTask1" text="Start Task 1" />
+            <Button fx:id="task2Button" mnemonicParsing="false" onAction="#startTask2" text="Start Task 2" GridPane.columnIndex="1" />
+            <Button fx:id="task3Button" mnemonicParsing="false" onAction="#startTask3" text="Start Task 3" GridPane.columnIndex="2" />
+            <Label fx:id="task1Label" text="STOPPED" GridPane.rowIndex="1" />
+            <Label fx:id="task2Label" text="STOPPED" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="task3Label" text="STOPPED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
-      </HBox>
-      <TextArea fx:id="textArea" layoutX="29.0" layoutY="66.0" prefHeight="307.0" prefWidth="542.0" />
+      </GridPane>
    </children>
 </AnchorPane>
